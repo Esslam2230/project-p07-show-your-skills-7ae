@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    {% set colors = [
+        'book-green', 'book-blue', 'book-umber', 'book-springer',
+        'book-red', 'book-purple', 'book-orange', 'book-teal',
+        'book-pink', 'book-grey'
+    ] %}
+
+    {% set shelves = categories|batch(5) %}
+
+    {% for shelf in shelves %}
+        <div class="bookshelf">
+            {% for category in shelf %}
+                <div class="book {{ colors[loop.parent.loop.index0 * 5 + loop.index0 % colors|length] }} {% if random(0,1) %}tilted{% endif %}">
+
+                    <a href="{{ path('category_show', {id: category.id}) }}">
+                        <h2>{{ category.name }}</h2>
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

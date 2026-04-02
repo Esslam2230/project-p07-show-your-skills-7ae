@@ -1,0 +1,138 @@
+{# templates/contact/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    <h1 class="author-title">Contact Ons</h1>
+
+    <div class="open-book contact-book">
+        <!-- Left page: info -->
+        <div class="book-left">
+            <h2>Onze Informatie</h2>
+            <p>Adres: Bibliotheekstraat 12, 1234 AB</p>
+            <p>Email: info@bibliotheek.nl</p>
+            <p>Telefoon: +31 123 456 789</p>
+            <p>Openingstijden: maandag t/m vrijdag, 09:00–17:00</p>
+        </div>
+
+        <!-- Right page: form -->
+        <div class="book-right">
+            <h2>Stuur een Bericht</h2>
+            <form method="post" action="#">
+                <label for="name">Naam:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Bericht:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Verstuur</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Title */
+        .author-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #3b2f2a;
+            font-family: 'Georgia', serif;
+        }
+
+        /* Open-book container */
+        .open-book.contact-book {
+            display: flex;
+            max-width: 1000px;
+            margin: 0 auto 50px;
+            background: #fdf6e3; /* soft paper */
+            border: 2px solid #d4c4b0;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 20px;
+        }
+
+        /* Left and right pages */
+        .book-left, .book-right {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Left page border */
+        .book-left {
+            border-right: 1px solid #d4c4b0; /* book fold */
+        }
+
+        /* Page headings */
+        .book-left h2, .book-right h2 {
+            margin-bottom: 20px;
+            color: #4a3f36;
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+
+        /* Info page text */
+        .book-left p {
+            margin-bottom: 10px;
+            color: #4a3f36;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #4a3f36;
+        }
+
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            background: #e07b39;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            background: #cf6a2c;
+        }
+
+        /* Responsive: stack pages on small screens */
+        @media (max-width: 800px) {
+            .open-book.contact-book {
+                flex-direction: column;
+            }
+            .book-left {
+                border-right: none;
+                border-bottom: 1px solid #d4c4b0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+{% endblock %}

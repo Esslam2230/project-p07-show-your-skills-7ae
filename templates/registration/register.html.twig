@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-md-5">
+            <div class="card register-card">
+
+                <div class="register-header">
+                    <h2>Maak een account</h2>
+                    <p class="mb-0">Welkom! Vul je gegevens in</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    {{ form_errors(registrationForm) }}
+
+                    {{ form_start(registrationForm) }}
+
+                    <div class="mb-3">
+                        {{ form_widget(registrationForm.first_name, {'attr': {'class': 'form-control', 'placeholder': 'Voornaam'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_widget(registrationForm.last_name, {'attr': {'class': 'form-control', 'placeholder': 'Achternaam'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_widget(registrationForm.address, {'attr': {'class': 'form-control', 'placeholder': 'Adres'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Wachtwoord'}}) }}
+                    </div>
+
+                    <div class="form-check mb-3">
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_label(registrationForm.agreeTerms, 'Ik ga akkoord met de voorwaarden', {'label_attr': {'class': 'form-check-label'}}) }}
+                    </div>
+
+                    <button class="btn btn-brown w-100">
+                        Registreren
+                    </button>
+
+                    {{ form_end(registrationForm) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

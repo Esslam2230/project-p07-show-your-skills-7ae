@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+            <div class="hero">
+                <img src="{{ asset('images/home-hero.jpg') }}" alt="achtergrond">
+                <div class="overlay"></div>
+                <div class="hero-text">
+                    <h1>Welkom op onze website</h1>
+                </div>
+            </div>
+
+            <div class="feature-block">
+                <div class="feature-text">
+                    <h2>Wat is AE Library?</h2>
+                    <p>AE Library is een moderne bibliotheek waar kennis, creativiteit en ontwikkeling centraal staan. Met een brede collectie boeken en digitale bronnen biedt AE Library voor iedereen iets—van ontspanning tot educatie. Het is een rustige plek waar bezoekers kunnen lezen, leren en nieuwe ideeën ontdekken.         </p>
+                </div>
+                <div class="feature-image">
+                    <img src="{{ asset('images/whay-home.png') }}" alt="voorbeeld afbeelding" style="width:500px; float:right; height:auto;">
+                </div>
+            </div>
+
+            <div class="feature-block">
+                <div class="feature-image">
+                    <img src="{{ asset('images/why-home.png') }}" alt="voorbeeld afbeelding" style="width:500px; float:left; height:auto;">
+                </div>
+                <div class="feature-text">
+                    <h2>Waarom kiezen voor AE Library?</h2>
+                    <p>
+                        AE Library maakt informatie toegankelijk voor iedereen en stimuleert persoonlijke groei. Of het nu gaat om school, werk of vrije tijd, hier vind je de juiste middelen en een fijne omgeving om te focussen. AE Library staat voor kwaliteit, rust en inspiratie.
+                    </p>
+                </div>
+            </div>
+
+
+
+        {% endblock %}

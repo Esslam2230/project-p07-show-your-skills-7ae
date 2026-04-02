@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+    <h1>Boekenlijst</h1>
+
+    <div class="bookshelf-books">
+        {% for book in books %}
+            <div class="book-books">
+                <a href="{{ path('book_show', {id: book.id}) }}">
+
+                    <img src="{{ asset('img/' ~ book.img) }}" alt="Book cover">
+                    <br>
+
+                    <strong>{{ book.title }}</strong><br>
+
+                    {% for author in book.authors %}
+                        {{ author.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
