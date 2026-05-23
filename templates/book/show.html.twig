@@ -1,58 +1,58 @@
-<div class="book-card">
-    <div class="book-front">
-        <h1>{{ book.title }}</h1>
-        <img src="{{ asset('img/' ~ book.img) }}" alt="{{ book.title }}" width="200">
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Detail{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <a href="javascript:history.back()" class="btn btn-return-library btn-sm">
+        ← Go Back
+    </a>
+
+
+    <div class="detail-book-page container my-5">
+        <div class="detail-book-card mx-auto">
+            <div class="detail-book-inner">
+
+                <div class="detail-book-front">
+                    <h1 class="detail-book-title">{{ book.title }}</h1>
+                    <img src="{{ asset('img/' ~ book.img) }}" alt="{{ book.title }}" class="detail-book-image">
+                </div>
+
+                <div class="detail-book-back">
+                    <p class="detail-book-description">{{ book.description }}</p>
+                    <ul class="detail-book-meta">
+                        <li>ISBN: {{ book.isbn }}</li>
+                        <li>Jaar: {{ book.year|date('Y') }}</li>
+                        <li>
+                            {% for author in book.authors %}
+                            <a href="{{ path('author_show', {id: author.id}) }}" class="detail-book-author">
+                                {{ author.name }}
+                                </a>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="book-back">
-        <p>{{ book.description }}</p>
-        <ul>
-            <li>ISBN: {{ book.isbn }}</li>
-            <li>Jaar: {{ book.year|date('Y') }}</li>
-        </ul>
+    <div class="center">
+
+
+    {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_borrow_book', {id: book.id}) }}" class="btn btn-borrow btn-sm">
+            Borrow
+        </a>
+    {% endif %}
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="mt-2">
+            <a href="{{ path('book_edit', {id: book.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{{ path('book_delete', {id: book.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    {% endif %}
     </div>
-</div>
-
-<style>
-    .book-card {
-        width: 220px;
-        height: 320px;
-        perspective: 1000px;
-        margin: 20px;
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    .book-card div {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        backface-visibility: hidden;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.8s;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .book-front {
-        background: #f0e6d2;
-    }
-
-    .book-back {
-        background: #ffe;
-        transform: rotateY(180deg);
-    }
-
-    .book-card:hover .book-front {
-        transform: rotateY(180deg);
-    }
-
-    .book-card:hover .book-back {
-        transform: rotateY(0deg);
-    }
-</style>
+{% endblock %}

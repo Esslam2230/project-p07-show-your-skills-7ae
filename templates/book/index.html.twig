@@ -1,27 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Books Page{% endblock %}
 
 {% block body %}
-    <h1>Boekenlijst</h1>
+    {{ parent() }}
+
+    <h1 class="books-page-title">Boekenlijst
+<br>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_book_add') }}" class="btn btn-success mb-3">
+                <i class="bi bi-plus-lg"></i> Add Book
+            </a>
+        {% endif %}
+    </h1>
+
+
 
     <div class="bookshelf-books">
         {% for book in books %}
-            <div class="book-books">
+            <div class="book-card-aa">
+
                 <a href="{{ path('book_show', {id: book.id}) }}">
-
-                    <img src="{{ asset('img/' ~ book.img) }}" alt="Book cover">
-                    <br>
-
-                    <strong>{{ book.title }}</strong><br>
-
-                    {% for author in book.authors %}
-                        {{ author.name }}{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-
+                    <img src="{{ asset('img/' ~ book.img) }}" alt="Book cover" class="book-image-aa">
+                    <span class="book-title-aa">{{ book.title }}</span>
+                    <span class="book-authors-aa">
+                        {% for author in book.authors %}
+                            {{ author.name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </span>
                 </a>
+
+                {# Buttons INSIDE the card #}
+                <div class="mt-2">
+
+                    {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_borrow_book', {id: book.id}) }}" class="btn btn-borrow btn-sm">
+                            Borrow
+                        </a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('book_edit', {id: book.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ path('book_delete', {id: book.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+
+                </div>
+
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

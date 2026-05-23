@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Details{% endblock %}
+
+{% block body %}
+
+    <div class="zx-admin-wrapper-unique">
+
+        <div class="zx-admin-left-unique">
+            <div class="zx-card-unique">
+                <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Adres:</strong> {{ user.address }}</p>
+                <p><strong>Leeftijd:</strong> {{ user.age|date('Y-m-d') }}</p>
+
+                <hr>
+
+                <h2>Alle geleende boeken</h2>
+
+                <ul>
+                    {% for borrow in bookBorrows %}
+                        <li style="margin-bottom:15px;">
+                            <strong>Boek:</strong> {{ borrow.bookStock ? borrow.bookStock.title : 'Onbekend' }}<br>
+                            Geleend: {{ borrow.loanDate|date('Y-m-d') }}<br>
+                            Moet terug: {{ borrow.returnDate ? borrow.returnDate|date('Y-m-d') : 'Nog niet terug' }}<br>
+                            {% if borrow.returnDate and borrow.returnDate < "now"|date %}
+                                <span style="color:red;">⛔ TE LAAT!</span>
+                            {% else %}
+                                <span style="color:green;">✅ Op tijd</span>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        <li>Geen boeken geleend</li>
+                    {% endfor %}
+                </ul>
+
+                < <a href="javascript:history.back()" class="btn btn-return-library btn-sm">
+                    ← Go Back
+                </a>
+            </div>
+        </div>
+
+        <div class="zx-admin-right-unique">
+            <!-- future content -->
+        </div>
+
+    </div>
+
+{% endblock %}

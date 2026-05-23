@@ -20,13 +20,8 @@ class BookBorrow
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $returnDate = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'bookBorrows')]
     private ?User $user = null;
-
-    #[ORM\ManyToOne(inversedBy: 'bookBorrows')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?BookStock $bookStock = null;
 
     public function getId(): ?int
     {
@@ -42,8 +37,14 @@ class BookBorrow
     {
         $this->loanDate = $loanDate;
 
+        $returnDate = clone $loanDate;
+        $returnDate->modify('+14 days');
+
+        $this->returnDate = $returnDate;
+
         return $this;
     }
+
 
     public function getReturnDate(): ?\DateTime
     {
@@ -69,15 +70,17 @@ class BookBorrow
         return $this;
     }
 
-    public function getBookStock(): ?BookStock
+    #[ORM\ManyToOne]
+    private ?Book $bookStock = null;
+
+    public function getBookStock(): ?Book
     {
         return $this->bookStock;
     }
 
-    public function setBookStock(?BookStock $bookStock): static
+    public function setBookStock(?Book $bookStock): static
     {
         $this->bookStock = $bookStock;
-
         return $this;
     }
 }

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur Toevoegen{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="container py-5">
+
+        <h1 class="page-title text-center mb-4">Auteur Toevoegen</h1>
+
+        <div class="author-form-frame p-4 mx-auto border border-3 border-warning rounded shadow-sm" style="max-width:600px;">
+            {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.img) }}
+                {{ form_widget(form.img, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.img) }}
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-lg"></i> Voeg Toe
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+    <style>
+        .page-title { color: #4a2e10; font-size: 2rem; }
+        .author-form-frame { background-color: #fff8f0; }
+    </style>
+
+{% endblock %}

@@ -1,20 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {{ parent() }}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/2005a/Documents/GitHub/sd24-project-p07-show-your-skills-7ae/src/Controller/AdminController.php</code></li>
-        <li>Your template at <code>C:/Users/2005a/Documents/GitHub/sd24-project-p07-show-your-skills-7ae/templates/admin/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="container my-5">
+
+        <!-- Overzicht van alle users -->
+        <div class="card shadow-sm rounded-4 mb-5 border-0 user-overview-section">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Alle Users</h3>
+
+                <div class="row g-3">
+                    {% for user in users %}
+                        <div class="col-md-4">
+                            <div class="card user-overview-card shadow-sm rounded-4 mb-4 border-0">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <p><strong>Naam:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+                                        <p><strong>Email:</strong> {{ user.email }}</p>
+                                        <p><strong>Aantal geleende boeken:</strong> {{ user.bookBorrows|length }}</p>
+                                    </div>
+                                    <a href="{{ path('app_admin_user_show', {id: user.id}) }}"
+                                       class="btn btn-brown mt-2 w-100">Bekijk details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Details per user -->
+        <h3 class="mb-4">Details per user</h3>
+
+        <div class="row g-4">
+            {% for user in users %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card user-detail-card shadow-sm h-100 rounded-4 border-0">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Naam: {{ user.firstName }} {{ user.lastName }}</h5>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Adres:</strong> {{ user.address }}</p>
+                            <p><strong>Leeftijd:</strong> {{ user.age|date('Y-m-d') }}</p>
+
+                            <h6 class="mt-3 mb-2">Geleende boeken</h6>
+                            <ul class="list-unstyled">
+                                {% for borrow in user.bookBorrows %}
+                                    {% set returnDate = borrow.returnDate ? borrow.returnDate|date('Y-m-d') : null %}
+                                    {% set daysLeft = returnDate ? (borrow.returnDate|date_modify("+0 days")|date("U") - "now"|date("U")) / 86400 : null %}
+
+                                    <li class="book-mini-card mb-2">
+                                        <p><strong>Boek:</strong> {{ borrow.bookStock ? borrow.bookStock.title : 'Geen boek' }}</p>
+                                        <p><strong>Geleend op:</strong> {{ borrow.loanDate|date('Y-m-d') }}</p>
+
+                                        {% if returnDate %}
+                                            <p><strong>Moet terug op:</strong> {{ returnDate }}
+                                                {% if daysLeft < 0 %}
+                                                    <span class="badge text-bg-danger">TE LAAT</span>
+                                                {% elseif daysLeft <= 3 %}
+                                                    <span class="badge text-bg-warning text-dark">Nog {{ daysLeft|round }} dagen</span>
+                                                {% else %}
+                                                    <span class="badge text-bg-success">Op tijd</span>
+                                                {% endif %}
+                                            </p>
+                                        {% else %}
+                                            <p><strong>Status:</strong> Nog niet terug, bij user</p>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li class="text-muted">Geen boeken geleend</li>
+                                {% endfor %}
+                            </ul>
+
+                            <a href="{{ path('app_admin_user_show', {id: user.id}) }}"
+                               class="btn btn-brown mt-3 w-100">Bekijk alle details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
 {% endblock %}

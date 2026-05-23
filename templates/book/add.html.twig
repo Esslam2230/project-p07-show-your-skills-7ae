@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boek Toevoegen{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="container py-5">
+
+        <h1 class="page-title text-center mb-4">Nieuw Boek Toevoegen</h1>
+
+        <div class="book-form-frame p-4 mx-auto border border-3 border-warning rounded shadow-sm" style="max-width:700px;">
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.isbn) }}
+                {{ form_widget(form.isbn, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.isbn) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.img) }}
+                {{ form_widget(form.img, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.img) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.year) }}
+                {{ form_widget(form.year, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.year) }}
+            </div>
+            <div class="mb-3 zx-form-group">
+                {{ form_label(form.authors) }}
+                {{ form_widget(form.authors, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.authors) }}
+            </div>
+
+            <div class="mb-3 zx-form-group">
+                {{ form_label(form.categories) }}
+                {{ form_widget(form.categories, {'attr': {'class':'form-control'}}) }}
+                {{ form_errors(form.categories) }}
+            </div>
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-lg"></i> Voeg Boek Toe
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

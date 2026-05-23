@@ -3,24 +3,44 @@
 {% block title %}{{ category.name }} - Boeken{% endblock %}
 
 {% block body %}
-    <h1>{{ category.name }}</h1>
-
+    {{ parent() }}
+    <div class="text-center mt-4">
+        <a href="{{ path('app_category') }}" class="back-btn">
+            ← Back To Category
+        </a>
+    </div>
+    <h1 class="books-page-title">{{ category.name }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_book_add') }}" class="btn btn-success mb-3">
+                <i class="bi bi-plus-lg"></i> Add Book
+            </a>
+        {% endif %}
+    </h1>
     <div class="bookshelf-books">
         {% for book in books %}
-            <div class="book-card">
+            <div class="book-card-aa">
+
                 <a href="{{ path('book_show', {id: book.id}) }}">
-                    <div class="book-image">
-                        <img src="{{ asset('img/' ~ book.img) }}" alt="{{ book.title }}">
-                    </div>
-                    <div class="book-info">
-                        <h3>{{ book.title }}</h3>
-                        <p>
-                            {% for author in book.authors %}
-                                {{ author.name }}{% if not loop.last %}, {% endif %}
-                            {% endfor %}
-                        </p>
-                    </div>
+                    <img src="{{ asset('img/' ~ book.img) }}" alt="{{ book.title }}" class="book-image-aa">
+                    <span class="book-title-aa">{{ book.title }}</span>
+                    <span class="book-authors-aa">
+                        {% for author in book.authors %}
+                            {{ author.name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </span>
                 </a>
+
+                <div class="mt-2">
+                    {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_user', {id: book.id}) }}" class="btn btn-borrow btn-sm">Borrow</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('book_edit', {id: book.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ path('book_delete', {id: book.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+                </div>
+
             </div>
         {% else %}
             <p>Geen boeken in deze categorie.</p>

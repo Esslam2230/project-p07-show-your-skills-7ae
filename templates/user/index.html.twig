@@ -3,18 +3,60 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {{ parent() }}
+    {# ✅ Flash messages bovenaan #}
+    {% for message in app.flashes('success') %}
+        <div class="alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/2005a/Documents/GitHub/sd24-project-p07-show-your-skills-7ae/src/Controller/UserController.php</code></li>
-        <li>Your template at <code>C:/Users/2005a/Documents/GitHub/sd24-project-p07-show-your-skills-7ae/templates/user/index.html.twig</code></li>
-    </ul>
-</div>
+    <h1>Mijn profiel</h1>
+
+    <div class="profile-container">
+
+        <!-- Kaart 1: Persoonlijke gegevens -->
+        <div class="card personal-info">
+            <h2>Persoonlijke gegevens</h2>
+            <p><strong>Naam:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Adres:</strong> {{ user.address }}</p>
+            {% if user.age %}
+                <p><strong>Geboortedatum:</strong> {{ user.age|date('d-m-Y') }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Kaart 2: Geleende boeken -->
+        <div class="card borrowed-books">
+            <h2>Geleende boeken</h2>
+            {% if borrowedBooks is empty %}
+                <p>Je hebt nog geen boeken geleend.</p>
+            {% else %}
+                <ul>
+                    {% for borrow in borrowedBooks %}
+                        <li>
+                            Boek: {{ borrow.bookStock.title }} – Geleend op: {{ borrow.loanDate|date('d-m-Y') }}
+                            {% if borrow.returnDate %}
+                                – Teruggebracht op: {{ borrow.returnDate|date('d-m-Y') }}
+                            {% else %}
+                                – Nog niet teruggebracht
+                            {% endif %}
+                            <a href="{{ path('app_return_book', {id: borrow.id}) }}" class="btn-return">
+                                Boek terugbrengen
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+    </div>
 {% endblock %}

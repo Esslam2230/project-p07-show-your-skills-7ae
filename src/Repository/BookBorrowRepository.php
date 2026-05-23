@@ -40,4 +40,15 @@ class BookBorrowRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByUser($user)
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('b.loanDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
